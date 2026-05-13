@@ -4,7 +4,7 @@ from typing import Annotated, Optional
 
 import typer
 
-from pex.db import DBManager
+from src.db import DBManager
 
 
 def _adb_from_movements(

@@ -1,7 +1,7 @@
 import typer
 
-from pex.expenses import expenses
-from pex.interest import interest
+from src.expenses import expenses
+from src.interest import interest
 
 app = typer.Typer()
 

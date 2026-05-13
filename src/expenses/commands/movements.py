@@ -4,9 +4,8 @@ from typing import Annotated
 
 import typer
 
-from pex.db import DBManager
-
-from ...format import cents_to_dollars
+from src.db import DBManager
+from src.format import cents_to_dollars
 
 
 def movements(card: Annotated[str, typer.Option(help="the name of the card")]):

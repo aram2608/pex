@@ -9,4 +9,11 @@ dependencies = ["typer", "python-dateutil" ]
 [project.scripts]
 pex = "main:app"
 
+[tool.setuptools]
+py-modules = ["main"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
 
