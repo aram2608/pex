@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = ["typer", "python-dateutil" ]
 
-[proect.scripts]
-pex = ":main"
+[project.scripts]
+pex = "main:app"
 
 

@@ -1,10 +1,12 @@
 import typer
 
-from pex.commands import add, list
+from pex.expenses import expenses
+from pex.interest import interest
 
 app = typer.Typer()
-app.command()(add.add)
-app.command()(list.list)
+
+app.add_typer(expenses.app, name="expenses")
+app.add_typer(interest.app, name="interest")
 
 if __name__ == "__main__":
     app()

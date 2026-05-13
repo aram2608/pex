@@ -1,4 +1,0 @@
-import typer
-
-
-def update(): ...
