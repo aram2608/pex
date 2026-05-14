@@ -2,7 +2,7 @@ import sqlite3
 
 import pytest
 
-from pex.interest.commands.credit_card import _adb_from_movements
+from src.interest.commands.credit_card import _adb_from_movements
 
 
 def movement(direction: str, amount_cents: int, date: str) -> sqlite3.Row:

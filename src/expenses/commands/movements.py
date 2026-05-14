@@ -18,12 +18,12 @@ def movements(card: Annotated[str, typer.Option(help="the name of the card")]):
     to = date(y, m, total_days).isoformat()
 
     with DBManager() as db:
-        movements = db.get_movements(card, from_=from_, to=to)
+        rows = db.get_movements(card, from_=from_, to=to)
 
-    if not movements:
+    if not rows:
         typer.echo(f"No movements found for '{card}' in {y}-{m:02d}.")
         raise typer.Exit()
 
-    for move in movements:
+    for move in rows:
         dol = cents_to_dollars(move["amount"])
         print(f"{move['date']}  {move['direction']:<7}  ${dol:>10}")

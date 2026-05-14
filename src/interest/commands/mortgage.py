@@ -10,4 +10,12 @@ def mortgage(
     down: Annotated[float, typer.Option()] = 0.0,
 ):
     """Calculate monthly payments and total interest for a fixed-rate mortgage."""
-    pass
+    p = principal - down
+    r = rate / 12 / 100
+    n = term * 12
+    monthly = p * (r * (1 + r) ** n) / ((1 + r) ** n - 1)
+    total_interest = (monthly * n) - p
+
+    print(f"Loan amount: {p:.2f}")
+    print(f"Monthly payment: {monthly:.2f}")
+    print(f"Total interest paid: {total_interest:.2f}")

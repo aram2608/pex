@@ -1,8 +1,13 @@
+import typer
 from dateutil import parser as dateparser
+from dateutil.parser import ParserError
 
 
 def parse_date(s: str) -> str:
-    return dateparser.parse(s).strftime("%Y-%m-%d")
+    try:
+        return dateparser.parse(s).strftime("%Y-%m-%d")
+    except ParserError, ValueError:
+        raise typer.BadParameter(f"Cannot parse date: '{s}'")
 
 
 def parse_date_range(

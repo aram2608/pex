@@ -1,6 +1,7 @@
 import sqlite3
 
 type Where = tuple[str, list[str]]
+VALID_DIRECTIONS = {"charge", "payment"}
 
 
 class DBManager:
@@ -15,6 +16,8 @@ class DBManager:
     def __exit__(self, exc_type, exc_value, exc_tb):
         if exc_type:
             self.con.rollback()
+        else:
+            self.con.commit()
         self.con.close()
 
     @staticmethod
@@ -52,7 +55,6 @@ class DBManager:
             "INSERT INTO expenses (tag, amount, date, note, card) VALUES (?, ?, ?, ?, ?)",
             (tag, amount, date, note, card),
         )
-        self.con.commit()
         return cur.lastrowid
 
     def add_movement(
@@ -63,11 +65,15 @@ class DBManager:
         date: str,
         expense_id: int | None = None,
     ):
+
+        if direction not in VALID_DIRECTIONS:
+            raise ValueError(
+                f"direction must be 'charge' or 'payment', got {direction!r}"
+            )
         _ = self.con.execute(
             "INSERT INTO credit_card_movements (card, amount, direction, date, expense_id) VALUES (?, ?, ?, ?, ?)",
             (card, amount, direction, date, expense_id),
         )
-        self.con.commit()
 
     def get_expenses(self, *, from_=None, to=None, tag=None) -> list:
         where, binds = self.where_builder(from_=from_, to=to, tag=tag)
@@ -106,9 +112,11 @@ class DBManager:
         ]
 
     def update_expense(self, **fields):
-        sql, binds = self.update_builder(**fields)
+        result = self.update_builder(**fields)
+        if result is None:
+            return
+        sql, binds = result
         _ = self.con.execute(sql, binds)
-        self.con.commit()
 
     def initialize(self):
         """Initialize a new expenses database."""

@@ -1,6 +1,6 @@
 import pytest
 
-from pex.db import DBManager
+from src.db import DBManager
 
 
 def test_add_and_retrieve(db):
