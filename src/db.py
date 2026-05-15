@@ -1,4 +1,5 @@
 import sqlite3
+from select import select
 
 import typer
 
@@ -104,14 +105,16 @@ class DBManager:
             f"SELECT COALESCE(SUM(amount), 0) FROM expenses{where}", binds
         ).fetchone()[0]
 
-    def get_tags(self, *, from_=None, to=None) -> list[str]:
+    def get_tags(self, *, from_=None, to=None) -> dict[str, int]:
         where, binds = self.where_builder(from_=from_, to=to)
-        return [
-            row[0]
-            for row in self.con.execute(
-                f"SELECT DISTINCT tag FROM expenses{where} ORDER BY tag", binds
-            )
-        ]
+        tags = {}
+        rows = self.con.execute(
+            f"SELECT tag, COUNT(*) as c FROM expenses{where} GROUP BY tag ORDER BY c DESC",
+            binds,
+        )
+        for row in rows:
+            tags[row[0]] = row[1]
+        return tags
 
     def update_expense(self, **fields):
         result = self.update_builder(**fields)
