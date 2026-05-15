@@ -1,6 +1,6 @@
 from calendar import monthrange
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Optional
 
 import typer
 
@@ -8,10 +8,19 @@ from src.db import DBManager
 from src.format import cents_to_dollars
 
 
-def movements(card: Annotated[str, typer.Option(help="the name of the card")]):
+def movements(
+    card: Annotated[str, typer.Option(help="the name of the card")],
+    month: Annotated[
+        Optional[int], typer.Option(help="billing month (default: current)")
+    ] = None,
+    year: Annotated[
+        Optional[int], typer.Option(help="billing year (default: current)")
+    ] = None,
+):
+    """List credit card movements for the current (or specified) billing month."""
     today: date = date.today()
-    m = today.month
-    y = today.year
+    m = month or today.month
+    y = year or today.year
     _, total_days = monthrange(y, m)
 
     from_ = date(y, m, 1).isoformat()
@@ -26,4 +35,4 @@ def movements(card: Annotated[str, typer.Option(help="the name of the card")]):
 
     for move in rows:
         dol = cents_to_dollars(move["amount"])
-        print(f"{move['date']}  {move['direction']:<7}  ${dol:>10}")
+        typer.echo(f"{move['date']}  {move['direction']:<7}  ${dol:>10}")

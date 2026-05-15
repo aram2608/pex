@@ -1,5 +1,7 @@
 import sqlite3
 
+import typer
+
 type Where = tuple[str, list[str]]
 VALID_DIRECTIONS = {"charge", "payment"}
 
@@ -117,6 +119,12 @@ class DBManager:
             return
         sql, binds = result
         _ = self.con.execute(sql, binds)
+        # Propogate update if the amount is changed
+        if "amount" in fields:
+            _ = self.con.execute(
+                "UPDATE credit_card_movements SET amount = ? WHERE expense_id = ? AND direction = 'charge'",
+                (fields["amount"], fields["id"]),
+            )
 
     def initialize(self):
         """Initialize a new expenses database."""
@@ -138,4 +146,4 @@ class DBManager:
             expense_id INTEGER REFERENCES expenses(id)
         );
         """)
-        print("Database initialized")
+        typer.echo("Database initialized")

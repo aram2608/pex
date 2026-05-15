@@ -1,0 +1,37 @@
+{
+    "add-pioneer": {
+        "cmd": "expenses add",
+        "desc" : "Add a new expense to pioneer credit card",
+        "flags": {
+            "--tag": "$cli",
+            "--amount": "$cli",
+            "--credit": "pioneer",
+            "--date": "$cli"
+        }
+    },
+    "pioneer-interest" : {
+        "cmd": "interest credit-card",
+        "desc" : "Calculate interest for pioneer credit card",
+        "flags": {
+            "--card": "pioneer",
+            "--apr": "24.74",
+            "--starting": "0"
+        }
+    },
+    "pioneer-payment" : {
+        "cmd": "expenses payment",
+        "desc" : "Make a pioneer payment, default date entry is today",
+        "flags" : {
+            "--card": "pioneer",
+            "--amount": "$cli"
+        }
+    },
+    "add-expense" : {
+        "cmd" : "expenses add",
+        "desc" : "Add a non credit based expense",
+        "flags" : {
+            "--tag" : "$cli",
+            "--amount" : "$cli"
+        }
+    }
+}

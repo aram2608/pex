@@ -25,5 +25,5 @@ def amortized(
     monthly = principal * (r * (1 + r) ** n) / ((1 + r) ** n - 1)
     total_interest = (monthly * n) - principal
 
-    print(f"Fixed payment: {monthly:.2f}")
-    print(f"Total interest paid: {total_interest:.2f}")
+    typer.echo(f"Fixed payment: {monthly:.2f}")
+    typer.echo(f"Total interest paid: {total_interest:.2f}")

@@ -27,4 +27,4 @@ def list(
         for exp in expenses:
             dollar = format.cents_to_dollars(exp["amount"])
             card = exp["card"] or "debit"
-            print(f"{exp['id']:>4}  {exp['date']}  {card:<10}  ${dollar:>8}  {exp['note']}")
+            typer.echo(f"{exp['id']:>4}  {exp['date']}  {card:<10}  ${dollar:>8}  {exp['note']}")

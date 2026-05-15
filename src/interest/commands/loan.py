@@ -10,4 +10,6 @@ def loan(
 ):
     """Calculate simple interest for a loan."""
     interest = principal * (rate / 100) * term
-    print(f"Interest for loan at {rate} for {term}: {interest}")
+    typer.echo(f"Principal:           ${principal:,.2f}")
+    typer.echo(f"Rate / term:         {rate}% over {term} year(s)")
+    typer.echo(f"Total interest:      ${interest:,.2f}")
